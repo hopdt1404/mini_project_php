@@ -38,7 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check input errors before inserting in database
     if(empty($name_err) && empty($address_err) && empty($salary_err)) {
-        $sql = "INSERT INTO employees (name, address, salary) VALUES (\"" . $name . "\", \"" .  $address . "\", " . $salary . ");";
+        $sql = "INSERT INTO employees (name, address, salary) VALUES ('$name', '$address', '$salary')";
         $result = $conn->query($sql);
         if ($result) {
             $message = '<div class="alert alert-success" role="alert">Success</div>';
