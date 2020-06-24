@@ -34,6 +34,12 @@ if(isset($_SESSION['username']) && isset($_SESSION['id'])) {
 </head>
 <body>
     <h6> <?php $_SESSION['username']; ?> </h6>
+    <div class="form-group">
+        <div class="col-sm-10 col-sm-offset-2">
+            <?php echo $result; ?>
+        </div>
+    </div>
+
     <a href="index.php">Logout</a><br>
     <div class="wrapper">
         <div class="container-fluid">
