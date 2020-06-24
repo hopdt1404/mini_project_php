@@ -58,7 +58,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                     <label>Salary</label>
                     <p class="form-control-static"><?php echo $row["salary"]; ?></p>
                 </div>
-                <p><a href="index.php" class="btn btn-primary">Back</a></p>
+                <p><a href="home.php" class="btn btn-primary">Home</a></p>
             </div>
         </div>
     </div>

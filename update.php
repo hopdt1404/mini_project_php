@@ -6,9 +6,10 @@ $name = $address = $salary = "";
 $name_err = $address_err = $salary_err = "";
 
 // Processing form data when form is submitted
+
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
     // Get hidden input value
-    $id = $_POST["id"];
+    $id = trim($_POST["id"]);
 
     // Validate name
     $input_name = trim($_POST["name"]);
@@ -40,34 +41,44 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     } else{
         $salary = $input_salary;
     }
-    var_dump($name_err);
-    var_dump($name);
-    var_dump($address_err);
-    var_dump($address);
-    var_dump($salary_err);
-    var_dump($salary);
+
     // Check input errors before inserting in database
     if(empty($name_err) && empty($address_err) && empty($salary_err)) {
+
         // Prepare an update statement
-        $sql = "UPDATE employees SET name=?, address=?, salary=? WHERE id=?";
-        echo "Update query";
-        var_dump($sql);
-        die();
-//        if($stmt = mysqli_prepare($link, $sql)) {
-//
-//        }
-    } else {
-        // Check existence of id parameter before processing further
-        if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
-            $id =  trim($_GET["id"]);
-            // Prepare a select statement
-            $sql = "SELECT * FROM employees WHERE id = $id";
-            var_dump($sql);
-        } else {
-            // URL doesn't contain id parameter. Redirect to error page
-            header("location: error.php");
+        $sql = "UPDATE employees SET name = '$name', address = '$address', salary = ? WHERE id=?";
+        $result = $conn->query($sql);
+        if ($result) {
+            header("location: home.php");
             exit();
+        } else {
+            echo "Something went wrong. Please try again later.";
         }
+
+    }
+
+} else {
+
+    // Check existence of id parameter before processing further
+    if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
+        $id = trim($_GET["id"]);
+        // Prepare a select statement
+        $sql = "SELECT * FROM employees WHERE id = $id";
+        $result = $conn->query($sql);
+        $temp = $result->fetch_all(MYSQLI_ASSOC);
+
+        if (count($temp) == 1) {
+            $row = $temp[0];
+            $name = $row["name"];
+            $address = $row["address"];
+            $salary = $row["salary"];
+        } else {
+            echo "Something went wrong. Please try again later.";
+        }
+    } else {
+        // URL doesn't contain id parameter. Redirect to error page
+        header("location: error.php");
+        exit();
     }
 }
 
@@ -113,7 +124,9 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                     </div>
                     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                     <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="index.php" class="btn btn-default">Cancel</a>
+                    <a href="home.php" class="btn btn-default">Cancel</a>
+                    <a href="home.php" class="btn btn-default">Home</a>
+
                 </form>
             </div>
         </div>
@@ -121,6 +134,3 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
 </div>
 </body>
 </html>
-
-
-
