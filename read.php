@@ -51,7 +51,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
-                    <h1>View Record</h1>
+                    <h1>View Record  <?php echo $id; ?></h1>
                 </div>
                 <div class="form-group">
                     <label>Name</label>
