@@ -135,8 +135,6 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                     <input type="submit" class="btn btn-primary" value="Submit">
                     <a href="home.php" class="btn btn-default">Cancel</a>
-                    <a href="home.php" class="btn btn-default">Home</a>
-
                 </form>
             </div>
         </div>
