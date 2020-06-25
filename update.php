@@ -1,5 +1,12 @@
 <?php
 require_once "config.php";
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+
+}
+
 
 // Define variables and initialize with empty values
 $name = $address = $salary = "";

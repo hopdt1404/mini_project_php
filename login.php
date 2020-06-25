@@ -1,7 +1,7 @@
 <?php
-session_start();
 
 include "config.php";
+session_start();
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
 	function validateData($data) {
@@ -18,16 +18,20 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 		header("Location: index.php?error=Username or Password invalid");
 		exit();
 	} else {
-		$sql = "SELECT * FROM users WHERE username = \"" . $username . "\"";
+		$sql = "SELECT * FROM users WHERE username = '$username'";
 		$result = $conn->query($sql);
 		$temp = $result->fetch_all(MYSQLI_ASSOC);
+
 		if ($temp) {
             $hash = $temp[0]['password'];
             if ($password === $hash) {
-                $_SESSION['id'] = $temp[0]['id'];
-                $_SESSION['username'] = $temp[0]['username'];
-                
+                session_start();
+                $_SESSION['username'] = $username;
+                if (isset($_POST['remember-me'])) {
+                    setcookie("username", $username, time() + 86400, "/");
+                }
                 header("Location: home.php");
+                exit();
             } else {
                 header("Location: index.php?error=Username or Password invalid");
                 exit();

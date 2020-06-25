@@ -1,8 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: index.php");
+    exit();
 
-if(isset($_SESSION['username']) && isset($_SESSION['id'])) {
-
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +42,7 @@ if(isset($_SESSION['username']) && isset($_SESSION['id'])) {
         </div>
     </div>
 
-    <a href="index.php">Logout</a><br>
+    <a href="logout.php">Logout</a><br>
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -96,14 +98,3 @@ if(isset($_SESSION['username']) && isset($_SESSION['id'])) {
 
 </body>
 </html>
-
-
-<?php
-
-} else {
-    header("Location: index.php");
-    exit();
-}
-
-?>
-

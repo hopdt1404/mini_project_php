@@ -1,4 +1,11 @@
 <?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+
+}
+
 if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
     // Include config file
     require_once "config.php";
@@ -58,7 +65,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                     <label>Salary</label>
                     <p class="form-control-static"><?php echo $row["salary"]; ?></p>
                 </div>
-                <p><a href="home.php" class="btn btn-primary">Home</a></p>
+                <p><a href="home.php" class="btn btn-primary">Back</a></p>
             </div>
         </div>
     </div>
