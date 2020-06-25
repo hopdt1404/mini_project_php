@@ -26,6 +26,18 @@ if (!isset($_SESSION['username'])) {
         table tr td:last-child a{
             margin-right: 15px;
         }
+        form {
+             margin-left: 1530px;
+        }
+        h4 {
+            text-align: center;
+        }
+        h5 {
+            text-align: center;
+        }
+        td {
+            text-align: center;
+        }
     </style>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -35,14 +47,23 @@ if (!isset($_SESSION['username'])) {
 
 </head>
 <body>
-    <h6> <?php $_SESSION['username']; ?> </h6>
+    <div class="alert alert-info">
+        <h2><strong>Welcome <?php echo $_SESSION['username']; ?></strong></h2>
+    </div>
+    <?php if (isset($_SESSION['class'])) { ?>
+        <div class="<?php echo $_SESSION['class']; $_SESSION['class'] = ''; ?>">
+            <strong><?php echo $_SESSION['message']; $_SESSION['message'] = ''; ?></strong>
+        </div>
+    <?php } ?>
     <div class="form-group">
         <div class="col-sm-10 col-sm-offset-2">
             <?php echo $result; ?>
         </div>
     </div>
+    <form>
+        <a href="logout.php">Logout</a><br>
+    </form>
 
-    <a href="logout.php">Logout</a><br>
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -61,21 +82,21 @@ if (!isset($_SESSION['username'])) {
                         echo "<table class='table table-bordered table-striped'>";
                         echo "<thead>";
                         echo "<tr>";
-                        echo "<th>#</th>";
-                        echo "<th>Name</th>";
-                        echo "<th>Address</th>";
-                        echo "<th>Salary</th>";
-                        echo "<th>Action</th>";
+                        echo "<th><h4>#</h4></th>";
+                        echo "<th><h4>Name</h4></th>";
+                        echo "<th><h4>Address</h4></th>";
+                        echo "<th><h4>Salary</h4></th>";
+                        echo "<th><h4>Action</h4></th>";
                         echo "</tr>";
                         echo "</thead>";
                         echo "<tbody>";
                         $numberRecord = count($temp);
                         for ($i = 0; $i < $numberRecord; $i++) {
                             echo "<tr>";
-                            echo "<td>" . $temp[$i]['id'] . "</td>";
-                            echo "<td>" . $temp[$i]['name'] . "</td>";
-                            echo "<td>" . $temp[$i]['address'] . "</td>";
-                            echo "<td>" . $temp[$i]['salary'] . "</td>";
+                            echo "<td><h5>" . $temp[$i]['id'] . "</td></h5>";
+                            echo "<td><h5>" . $temp[$i]['name'] . "</td></h5>";
+                            echo "<td><h5>" . $temp[$i]['address'] . "</td></h5>";
+                            echo "<td><h5>" . $temp[$i]['salary'] . "</td></h5>";
                             echo "<td>";
                             echo "<a href='read.php?id=". $temp[$i]['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
                             echo "<a href='update.php?id=". $temp[$i]['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
