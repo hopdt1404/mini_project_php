@@ -1,15 +1,10 @@
 <?php
 
 include "config.php";
-session_start();
+include "lib.php";
 
+session_start();
 if (isset($_POST['username']) && isset($_POST['password'])) {
-	function validateData($data) {
-		$data = trim($data);
-		$data = stripcslashes($data);
-		$data = htmlspecialchars($data);
-		return $data;
-	}
 
 	function loginError () {
         $_SESSION['class'] = "alert alert-danger";
@@ -24,7 +19,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	if (empty($username) || empty($password)) {
 		loginError();
 	} else {
-		$sql = "SELECT * FROM users WHERE username = '$username'";
+        $sql = "SELECT * FROM users WHERE username = '$username'";
 		$result = $conn->query($sql);
 		$temp = $result->fetch_all(MYSQLI_ASSOC);
 
