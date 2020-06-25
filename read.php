@@ -54,16 +54,16 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                     <h1>View Record  <?php echo $id; ?></h1>
                 </div>
                 <div class="form-group">
-                    <label>Name</label>
-                    <p class="form-control-static"><?php echo $row["name"]; ?></p>
+                    <h3><label>Name</label></h3>
+                    <h4><p class="form-control-static"><?php echo $row["name"]; ?></p></h4>
                 </div>
                 <div class="form-group">
-                    <label>Address</label>
-                    <p class="form-control-static"><?php echo $row["address"]; ?></p>
+                    <h3><label>Address</label></h3>
+                    <h4><p class="form-control-static"><?php echo $row["address"]; ?></p></h4>
                 </div>
                 <div class="form-group">
-                    <label>Salary</label>
-                    <p class="form-control-static"><?php echo $row["salary"]; ?></p>
+                    <h3><label>Salary</label></h3>
+                    <h4><p class="form-control-static"><?php echo $row["salary"]; ?></p></h4>
                 </div>
                 <p><a href="home.php" class="btn btn-primary">Back</a></p>
             </div>
