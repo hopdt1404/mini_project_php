@@ -46,7 +46,8 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     if(empty($name_err) && empty($address_err) && empty($salary_err)) {
 
         // Prepare an update statement
-        $sql = "UPDATE employees SET name = '$name', address = '$address', salary = ? WHERE id=?";
+        $sql = "UPDATE employees SET name = '$name', address = '$address', salary = $salary  WHERE id=$id";
+        var_dump($sql);
         $result = $conn->query($sql);
         if ($result) {
             header("location: home.php");
