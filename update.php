@@ -57,6 +57,8 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
         var_dump($sql);
         $result = $conn->query($sql);
         if ($result) {
+            $_SESSION['class'] = "alert alert-success";
+            $_SESSION['message'] = "Updated record successful";
             header("location: home.php");
             exit();
         } else {
