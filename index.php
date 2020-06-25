@@ -27,13 +27,14 @@ if (isset($_SESSION['username'])) {
 <body>
 <div class="row">
     <aside class="col-sm-4">
-        <p>Login</p>
         <div class="card">
             <article class="card-body">
                 <!--                    <a href="" class="float-right btn btn-outline-primary">Sign up</a>-->
-                <h4 class="card-title mb-4 mt-1">Sign in</h4>
-                <?php if (isset($_GET['error'])) { ?>
-                    <p class="error"><?php echo $_GET['error']; ?></p>
+                <h4 class="card-title mb-4 mt-1">Login</h4>
+                <?php if (isset($_SESSION['class'])) { ?>
+                    <div class="<?php echo $_SESSION['class']; ?>">
+                        <strong><?php echo $_SESSION['message']; ?></strong>
+                    </div>
                 <?php } ?>
                 <form action="login.php" method="POST">
                     <div class="form-group">

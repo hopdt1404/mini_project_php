@@ -47,7 +47,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO employees (name, address, salary) VALUES ('$name', '$address', '$salary')";
         $result = $conn->query($sql);
         if ($result) {
-            $message = '<div class="alert alert-success" role="alert">Success</div>';
+            $_SESSION['class'] = "alert alert-success";
+            $_SESSION['message'] = "Created record successful";
             header("location: home.php");
             exit();
         } else {
