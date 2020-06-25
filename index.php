@@ -23,14 +23,28 @@ if (isset($_SESSION['username'])) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
             integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
             crossorigin="anonymous"></script>
+    <style type="text/css">
+        aside {
+            margin-left: 450px;
+            margin-top: 80px;
+        }
+        h2 {
+            text-align: center;
+            color: #0099ff;
+        }
+
+        .checkbox label {
+            color: #66c2ff;
+        }
+    </style>
+
 </head>
 <body>
 <div class="row">
-    <aside class="col-sm-4">
+    <aside class="col-sm-6">
         <div class="card">
             <article class="card-body">
-                <!--                    <a href="" class="float-right btn btn-outline-primary">Sign up</a>-->
-                <h4 class="card-title mb-4 mt-1">Login</h4>
+                <h2 class="card-title mb-4 mt-1">Login</h2>
                 <?php if (isset($_SESSION['class'])) { ?>
                     <div class="<?php echo $_SESSION['class']; ?>">
                         <strong><?php echo $_SESSION['message']; ?></strong>
