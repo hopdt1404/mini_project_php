@@ -96,7 +96,7 @@ if (!isset($_SESSION['username'])) {
                             echo "<td><h5>" . $temp[$i]['id'] . "</td></h5>";
                             echo "<td><h5>" . $temp[$i]['name'] . "</td></h5>";
                             echo "<td><h5>" . $temp[$i]['address'] . "</td></h5>";
-                            echo "<td><h5>" . $temp[$i]['salary'] . "</td></h5>";
+                            echo "<td><h5>" . number_format($temp[$i]['salary'], 2, ',', ' ') . "</td></h5>";
                             echo "<td>";
                             echo "<a href='read.php?id=". $temp[$i]['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
                             echo "<a href='update.php?id=". $temp[$i]['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";

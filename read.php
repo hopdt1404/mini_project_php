@@ -63,7 +63,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                 </div>
                 <div class="form-group">
                     <h3><label>Salary</label></h3>
-                    <h4><p class="form-control-static"><?php echo $row["salary"]; ?></p></h4>
+                    <h4><p class="form-control-static"><?php echo number_format($row["salary"], 2, ',', ' '); ?></p></h4>
                 </div>
                 <p><a href="home.php" class="btn btn-primary">Back</a></p>
             </div>

@@ -93,7 +93,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])) {
                 </div>
                 <div class="form-group">
                     <h3><label>Salary</label></h3>
-                    <h4><p class="form-control-static"><?php echo $row["salary"]; ?></p></h4>
+                    <h4><p class="form-control-static"><?php echo number_format($row["salary"], 2, ',', ' '); ?></p></h4>
                 </div>
             </div>
         </div>
