@@ -6,30 +6,36 @@ if (!isset($_SESSION['username'])) {
 
 }
 
-if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
-    // Include config file
-    require_once "config.php";
+try {
+    if(isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
+        // Include config file
+        require_once "config.php";
 
-    // Prepare a select statement
-    $id = trim($_GET["id"]);
-    $sql = "SELECT * FROM employees WHERE id = $id";
-    $result = $conn->query($sql);
-    $temp = $result->fetch_all(MYSQLI_ASSOC);
-    if (count($temp) == 1) {
-        $row = $temp[0];
-        $name = $row["name"];
-        $address = $row["address"];
-        $salary = $row["salary"];
+        // Prepare a select statement
+        $id = trim($_GET["id"]);
+        $sql = "SELECT * FROM employees WHERE id = $id";
+        $result = $conn->query($sql);
+        $temp = $result->fetch_all(MYSQLI_ASSOC);
+        if (count($temp) == 1) {
+            $row = $temp[0];
+            $name = $row["name"];
+            $address = $row["address"];
+            $salary = $row["salary"];
+        } else {
+            // URL doesn't contain valid id parameter. Redirect to error page
+            header("location: error.php");
+            exit();
+        }
     } else {
-        // URL doesn't contain valid id parameter. Redirect to error page
+        // URL doesn't contain id parameter. Redirect to error page
         header("location: error.php");
         exit();
     }
-} else {
-    // URL doesn't contain id parameter. Redirect to error page
+} catch (Exception $e) {
     header("location: error.php");
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>

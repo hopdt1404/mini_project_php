@@ -3,7 +3,6 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header("Location: index.php");
     exit();
-
 }
 ?>
 
@@ -50,11 +49,13 @@ if (!isset($_SESSION['username'])) {
     <div class="alert alert-info">
         <h2><strong>Welcome <?php echo $_SESSION['username']; ?></strong></h2>
     </div>
+
     <?php if (isset($_SESSION['class'])) { ?>
         <div class="<?php echo $_SESSION['class']; $_SESSION['class'] = ''; ?>">
             <strong><?php echo $_SESSION['message']; $_SESSION['message'] = ''; ?></strong>
         </div>
     <?php } ?>
+
     <div class="form-group">
         <div class="col-sm-10 col-sm-offset-2">
             <?php echo $result; ?>
@@ -72,42 +73,48 @@ if (!isset($_SESSION['username'])) {
                         <h2 class="pull-left">Employees Details</h2>
                         <a href="create.php" class="btn btn-success pull-right">Add New Employee</a>
                     </div>
+
                     <?php
                     require_once "config.php";
-
-                    $sql = "SELECT * FROM employees";
-                    $result = $conn->query($sql);
-                    $temp = $result->fetch_all(MYSQLI_ASSOC);
-                    if (count($temp) > 0) {
-                        echo "<table class='table table-bordered table-striped'>";
-                        echo "<thead>";
-                        echo "<tr>";
-                        echo "<th><h4>#</h4></th>";
-                        echo "<th><h4>Name</h4></th>";
-                        echo "<th><h4>Address</h4></th>";
-                        echo "<th><h4>Salary</h4></th>";
-                        echo "<th><h4>Action</h4></th>";
-                        echo "</tr>";
-                        echo "</thead>";
-                        echo "<tbody>";
-                        $numberRecord = count($temp);
-                        for ($i = 0; $i < $numberRecord; $i++) {
+                    try {
+                        $sql = "SELECT * FROM employees";
+                        $result = $conn->query($sql);
+                        $temp = $result->fetch_all(MYSQLI_ASSOC);
+                        if (count($temp) > 0) {
+                            echo "<table class='table table-bordered table-striped'>";
+                            echo "<thead>";
                             echo "<tr>";
-                            echo "<td><h5>" . $temp[$i]['id'] . "</td></h5>";
-                            echo "<td><h5>" . $temp[$i]['name'] . "</td></h5>";
-                            echo "<td><h5>" . $temp[$i]['address'] . "</td></h5>";
-                            echo "<td><h5>" . number_format($temp[$i]['salary'], 2, ',', ' ') . "</td></h5>";
-                            echo "<td>";
-                            echo "<a href='read.php?id=". $temp[$i]['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
-                            echo "<a href='update.php?id=". $temp[$i]['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
-                            echo "<a href='delete.php?id=". $temp[$i]['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
-                            echo "</td>";
+                            echo "<th><h4>#</h4></th>";
+                            echo "<th><h4>Name</h4></th>";
+                            echo "<th><h4>Address</h4></th>";
+                            echo "<th><h4>Salary</h4></th>";
+                            echo "<th><h4>Action</h4></th>";
                             echo "</tr>";
+                            echo "</thead>";
+                            echo "<tbody>";
+
+                            $numberRecord = count($temp);
+                            for ($i = 0; $i < $numberRecord; $i++) {
+                                echo "<tr>";
+                                echo "<td><h5>" . $temp[$i]['id'] . "</td></h5>";
+                                echo "<td><h5>" . $temp[$i]['name'] . "</td></h5>";
+                                echo "<td><h5>" . $temp[$i]['address'] . "</td></h5>";
+                                echo "<td><h5>" . number_format($temp[$i]['salary'], 2, ',', ' ') . "</td></h5>";
+                                echo "<td>";
+                                echo "<a href='read.php?id=". $temp[$i]['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
+                                echo "<a href='update.php?id=". $temp[$i]['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
+                                echo "<a href='delete.php?id=". $temp[$i]['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
+                                echo "</td>";
+                                echo "</tr>";
+                            }
+                            echo "</tbody>";
+                            echo "</table>";
+                        } else {
+                            echo "<p class='lead'><em>No records were found.</em></p>";
                         }
-                        echo "</tbody>";
-                        echo "</table>";
-                    } else {
-                        echo "<p class='lead'><em>No records were found.</em></p>";
+                    } catch (Exception $e) {
+                        header("location: error.php");
+                        exit();
                     }
                     ?>
                 </div>

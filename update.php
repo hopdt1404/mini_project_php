@@ -7,89 +7,94 @@ if (!isset($_SESSION['username'])) {
 
 }
 
-
+try {
 // Define variables and initialize with empty values
-$name = $address = $salary = "";
-$name_err = $address_err = $salary_err = "";
+    $name = $address = $salary = "";
+    $name_err = $address_err = $salary_err = "";
 
 // Processing form data when form is submitted
 
-if (isset($_POST["id"]) && !empty($_POST["id"])) {
-    // Get hidden input value
-    $id = trim($_POST["id"]);
+    if (isset($_POST["id"]) && !empty($_POST["id"])) {
+        // Get hidden input value
+        $id = trim($_POST["id"]);
 
-    // Validate name
-    $input_name = trim($_POST["name"]);
-    if (empty($input_name)) {
-        $name_err = "Please enter a name.";
-    } elseif (
-    !filter_var($input_name,
-        FILTER_VALIDATE_REGEXP,
-        ["options"=> ["regexp"=>"/^[a-zA-Z\s]+$/"]])) {
-        $name_err = "Please enter a valid name.";
-    } else{
-        $name = $input_name;
-    }
-
-    // Validate address address
-    $input_address = trim($_POST["address"]);
-    if(empty($input_address)){
-        $address_err = "Please enter an address.";
-    } else{
-        $address = $input_address;
-    }
-
-    // Validate salary
-    $input_salary = trim($_POST["salary"]);
-    if(empty($input_salary)){
-        $salary_err = "Please enter the salary amount.";
-    } elseif(!ctype_digit($input_salary)){
-        $salary_err = "Please enter a positive integer value.";
-    } else{
-        $salary = $input_salary;
-    }
-
-    // Check input errors before inserting in database
-    if(empty($name_err) && empty($address_err) && empty($salary_err)) {
-
-        // Prepare an update statement
-        $sql = "UPDATE employees SET name = '$name', address = '$address', salary = $salary  WHERE id=$id";
-        var_dump($sql);
-        $result = $conn->query($sql);
-        if ($result) {
-            $_SESSION['class'] = "alert alert-success";
-            $_SESSION['message'] = "Updated record successful";
-            header("location: home.php");
-            exit();
-        } else {
-            echo "Something went wrong. Please try again later.";
+        // Validate name
+        $input_name = trim($_POST["name"]);
+        if (empty($input_name)) {
+            $name_err = "Please enter a name.";
+        } elseif (
+        !filter_var($input_name,
+            FILTER_VALIDATE_REGEXP,
+            ["options"=> ["regexp"=>"/^[a-zA-Z\s]+$/"]])) {
+            $name_err = "Please enter a valid name.";
+        } else{
+            $name = $input_name;
         }
 
-    }
-
-} else {
-
-    // Check existence of id parameter before processing further
-    if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
-        $id = trim($_GET["id"]);
-        // Prepare a select statement
-        $sql = "SELECT * FROM employees WHERE id = $id";
-        $result = $conn->query($sql);
-        $temp = $result->fetch_all(MYSQLI_ASSOC);
-
-        if (count($temp) == 1) {
-            $row = $temp[0];
-            $name = $row["name"];
-            $address = $row["address"];
-            $salary = $row["salary"];
-        } else {
-            echo "Something went wrong. Please try again later.";
+        // Validate address address
+        $input_address = trim($_POST["address"]);
+        if(empty($input_address)){
+            $address_err = "Please enter an address.";
+        } else{
+            $address = $input_address;
         }
+
+        // Validate salary
+        $input_salary = trim($_POST["salary"]);
+        if(empty($input_salary)){
+            $salary_err = "Please enter the salary amount.";
+        } elseif(!ctype_digit($input_salary)){
+            $salary_err = "Please enter a positive integer value.";
+        } else{
+            $salary = $input_salary;
+        }
+
+        // Check input errors before inserting in database
+        if(empty($name_err) && empty($address_err) && empty($salary_err)) {
+
+            // Prepare an update statement
+            $sql = "UPDATE employees SET name = '$name', address = '$address', salary = $salary  WHERE id=$id";
+            var_dump($sql);
+            $result = $conn->query($sql);
+            if ($result) {
+                $_SESSION['class'] = "alert alert-success";
+                $_SESSION['message'] = "Updated record successful";
+                header("location: home.php");
+                exit();
+            } else {
+                echo "Something went wrong. Please try again later.";
+            }
+
+        }
+
     } else {
-        // URL doesn't contain id parameter. Redirect to error page
-        header("location: error.php");
-        exit();
+        // Check existence of id parameter before processing further
+        if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
+            $id = trim($_GET["id"]);
+            // Prepare a select statement
+            $sql = "SELECT * FROM employees WHERE id = $id";
+            $result = $conn->query($sql);
+            $temp = $result->fetch_all(MYSQLI_ASSOC);
+
+            if (count($temp) == 1) {
+                $row = $temp[0];
+                $name = $row["name"];
+                $address = $row["address"];
+                $salary = $row["salary"];
+            } else {
+                header("location: error.php");
+                exit();
+            }
+        } else {
+            // URL doesn't contain id parameter. Redirect to error page
+            header("location: error.php");
+            exit();
+        }
     }
+    
+} catch (Exception $e) {
+    header("location: error.php");
+    exit();
 }
 
 ?>

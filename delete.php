@@ -6,48 +6,54 @@ if (!isset($_SESSION['username'])) {
     exit();
 
 }
-$idGet = trim($_GET["id"]);
-if(isset($_GET["id"]) && !empty($idGet)) {
-    // Include config file
-    require_once "config.php";
 
-    // Prepare a select statement
-    $id = trim($_GET["id"]);
-    $sql = "SELECT * FROM employees WHERE id = $id";
-    $result = $conn->query($sql);
-    $temp = $result->fetch_all(MYSQLI_ASSOC);
-    if (count($temp) == 1) {
-        $row = $temp[0];
-        $name = $row["name"];
-        $address = $row["address"];
-        $salary = $row["salary"];
+try {
+    $idGet = trim($_GET["id"]);
+    if(isset($_GET["id"]) && !empty($idGet)) {
+        // Include config file
+        require_once "config.php";
+
+        // Prepare a select statement
+        $id = trim($_GET["id"]);
+        $sql = "SELECT * FROM employees WHERE id = $id";
+        $result = $conn->query($sql);
+        $temp = $result->fetch_all(MYSQLI_ASSOC);
+        if (count($temp) == 1) {
+            $row = $temp[0];
+            $name = $row["name"];
+            $address = $row["address"];
+            $salary = $row["salary"];
+        } else {
+            // URL doesn't contain valid id parameter. Redirect to error page
+            header("location: error.php");
+            exit();
+        }
     } else {
-        // URL doesn't contain valid id parameter. Redirect to error page
+        // URL doesn't contain id parameter. Redirect to error page
         header("location: error.php");
         exit();
     }
-} else {
-    // URL doesn't contain id parameter. Redirect to error page
-    header("location: error.php");
-    exit();
-}
 
+    if(isset($_POST["id"]) && !empty($_POST["id"])) {
+        // Include config file
+        require_once "config.php";
 
-if(isset($_POST["id"]) && !empty($_POST["id"])) {
-    // Include config file
-    require_once "config.php";
-
-    // Prepare a delete statement
-    $id = trim($_POST["id"]);
-    $sql = "DELETE FROM employees WHERE id = $id";
-    $result = $conn->query($sql);
-    if ($result) {
-        header("location: home.php");
-        exit();
-    } else {
-        echo "Oops! Something went wrong. Please try again later.";
+        // Prepare a delete statement
+        $id = trim($_POST["id"]);
+        $sql = "DELETE FROM employees WHERE id = $id";
+        $result = $conn->query($sql);
+        if ($result) {
+            header("location: home.php");
+            exit();
+        } else {
+            header("location: error.php");
+            exit();
+        }
     }
 
+} catch (Exception $e) {
+    header("location: error.php");
+    exit();
 }
 
 ?>
