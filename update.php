@@ -91,7 +91,7 @@ try {
             exit();
         }
     }
-    
+
 } catch (Exception $e) {
     header("location: error.php");
     exit();
@@ -134,11 +134,11 @@ try {
                     </div>
                     <div class="form-group <?php echo (!empty($salary_err)) ? 'has-error' : ''; ?>">
                         <label>Salary</label>
-                        <input type="text" name="salary" class="form-control" value="<?php echo number_format($salary, 2, ',', ' '); ?>">
+                        <input type="text" name="salary" class="form-control" value="<?php echo $salary; ?>">
                         <span class="help-block"><?php echo $salary_err;?></span>
                     </div>
                     <input type="hidden" name="id" value="<?php echo $id; ?>"/>
-                    <input type="submit" class="btn btn-primary" value="Submit">
+                    <input type="submit" class="btn btn-primary" value="Update">
                     <a href="home.php" class="btn btn-default">Cancel</a>
                 </form>
             </div>
