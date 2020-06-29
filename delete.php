@@ -4,56 +4,47 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
-
 }
 
-try {
-    $idGet = trim($_GET["id"]);
-    if(isset($_GET["id"]) && !empty($idGet)) {
-        // Include config file
-        require_once "config.php";
+$idGet = trim($_GET["id"]);
+if(isset($_GET["id"]) && !empty($idGet)) {
+    // Include config file
+    require_once "config.php";
 
-        // Prepare a select statement
-        $id = trim($_GET["id"]);
-        $sql = "SELECT * FROM employees WHERE id = $id";
-        $result = $conn->query($sql);
-        $temp = $result->fetch_all(MYSQLI_ASSOC);
-        if (count($temp) == 1) {
-            $row = $temp[0];
-            $name = $row["name"];
-            $address = $row["address"];
-            $salary = $row["salary"];
-        } else {
-            // URL doesn't contain valid id parameter. Redirect to error page
-            header("location: error.php");
-            exit();
-        }
+    // Prepare a select statement
+    $id = trim($_GET["id"]);
+    $sql = "SELECT * FROM employees WHERE id = $id";
+    $result = $conn->query($sql);
+    $temp = $result->fetch_all(MYSQLI_ASSOC);
+    if (count($temp) == 1) {
+        $row = $temp[0];
+        $name = $row["name"];
+        $address = $row["address"];
+        $salary = $row["salary"];
     } else {
-        // URL doesn't contain id parameter. Redirect to error page
+        // URL doesn't contain valid id parameter. Redirect to error page
         header("location: error.php");
         exit();
     }
+}
 
-    if(isset($_POST["id"]) && !empty($_POST["id"])) {
-        // Include config file
-        require_once "config.php";
+if(isset($_POST["id"]) && !empty($_POST["id"])) {
+    // Include config file
+    require_once "config.php";
 
-        // Prepare a delete statement
-        $id = trim($_POST["id"]);
-        $sql = "DELETE FROM employees WHERE id = $id";
-        $result = $conn->query($sql);
-        if ($result) {
-            header("location: home.php");
-            exit();
-        } else {
-            header("location: error.php");
-            exit();
-        }
+    // Prepare a delete statement
+    $id = trim($_POST["id"]);
+    $sql = "DELETE FROM employees WHERE id = $id";
+    $result = $conn->query($sql);
+    if ($result) {
+        $_SESSION['class'] = "alert alert-success";
+        $_SESSION['message'] = "Deleted record successful";
+        header("location: home.php");
+        exit();
+    } else {
+        header("location: error.php");
+        exit();
     }
-
-} catch (Exception $e) {
-    header("location: error.php");
-    exit();
 }
 
 ?>
@@ -101,6 +92,7 @@ try {
                     <h3><label>Salary</label></h3>
                     <h4><p class="form-control-static"><?php echo number_format($row["salary"], 2, ',', ' '); ?></p></h4>
                 </div>
+                <p><a href="home.php" class="btn btn-primary">Back</a></p>
             </div>
         </div>
     </div>

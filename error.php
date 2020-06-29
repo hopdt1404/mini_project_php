@@ -20,7 +20,7 @@
                         <h1>Invalid Request</h1>
                     </div>
                     <div class="alert alert-danger fade in">
-                        <p>Sorry, you've made an invalid request. Please <a href="index.php" class="alert-link">go back</a> and try again.</p>
+                        <p>Sorry, you've made an invalid request. Please try later. <a href="index.php" class="alert-link">Home</a></p>
                     </div>
                 </div>
             </div>        
