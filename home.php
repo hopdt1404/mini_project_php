@@ -1,9 +1,32 @@
 <?php
+
 session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: index.php");
-    exit();
+require_once "lib.php";
+require_once "config.php";
+
+if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+    $username = validateData($_COOKIE['username']);
+    $password = validateData($_COOKIE['password']);
+
+    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = $conn->query($sql);
+    $tmp = $result->fetch_all(MYSQLI_ASSOC);
+    if (count($tmp) == 0) {
+        $_SESSION['class'] = "alert alert-danger";
+        $_SESSION['message'] = "Authentication error";
+        header("Location: index.php");
+        exit();
+    }
+    $_SESSION['username'] = $username;
+
+} else {
+    if (!isset($_SESSION['username'])) {
+        header("Location: index.php");
+        exit();
+    }
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -56,11 +79,6 @@ if (!isset($_SESSION['username'])) {
         </div>
     <?php } ?>
 
-    <div class="form-group">
-        <div class="col-sm-10 col-sm-offset-2">
-            <?php echo $result; ?>
-        </div>
-    </div>
     <form>
         <a href="logout.php">Logout</a><br>
     </form>
@@ -75,7 +93,6 @@ if (!isset($_SESSION['username'])) {
                     </div>
 
                     <?php
-                    require_once "config.php";
                     try {
                         $sql = "SELECT * FROM employees";
                         $result = $conn->query($sql);
@@ -96,7 +113,7 @@ if (!isset($_SESSION['username'])) {
                             $numberRecord = count($temp);
                             for ($i = 0; $i < $numberRecord; $i++) {
                                 echo "<tr>";
-                                echo "<td><h5>" . $temp[$i]['id'] . "</td></h5>";
+                                echo "<td><h5>" . ($i + 1). "</td></h5>";
                                 echo "<td><h5>" . $temp[$i]['name'] . "</td></h5>";
                                 echo "<td><h5>" . $temp[$i]['address'] . "</td></h5>";
                                 echo "<td><h5>" . number_format($temp[$i]['salary'], 2, ',', ' ') . "</td></h5>";

@@ -1,7 +1,7 @@
 <?php
 
-include "config.php";
-include "lib.php";
+require_once "config.php";
+require_once "lib.php";
 
 session_start();
 try {
@@ -23,14 +23,14 @@ try {
             $sql = "SELECT * FROM users WHERE username = '$username'";
             $result = $conn->query($sql);
             $temp = $result->fetch_all(MYSQLI_ASSOC);
-
             if ($temp) {
-                $hash = $temp[0]['password'];
-                if ($password === $hash) {
+                $passwordHash = $temp[0]['password'];
+                if ($password == $passwordHash) {
                     session_start();
                     $_SESSION['username'] = $username;
                     if (isset($_POST['remember-me'])) {
                         setcookie("username", $username, time() + 86400, "/");
+                        setcookie("password", $password, time() + 86400, "/");
                     }
                     $_SESSION['class'] = "alert alert-success";
                     $_SESSION['message'] = "Login Successful";

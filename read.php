@@ -1,9 +1,26 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit();
 
+if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+    $username = validateData($_COOKIE['username']);
+    $password = validateData($_COOKIE['password']);
+
+    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = $conn->query($sql);
+    $tmp = $result->fetch_all(MYSQLI_ASSOC);
+    if (count($tmp) == 0) {
+        $_SESSION['class'] = "alert alert-danger";
+        $_SESSION['message'] = "Authentication error";
+        header("Location: index.php");
+        exit();
+    }
+    $_SESSION['username'] = $username;
+
+} else {
+    if (!isset($_SESSION['username'])) {
+        header("Location: index.php");
+        exit();
+    }
 }
 
 try {

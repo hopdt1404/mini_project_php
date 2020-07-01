@@ -1,9 +1,25 @@
 <?php
 session_start();
-if (isset($_SESSION['username'])) {
-    header("Location: home.php");
-    exit();
+require "lib.php";
+if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+    $username = validateData($_COOKIE['username']);
+    $password = validateData($_COOKIE['password']);
+
+    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = $conn->query($sql);
+    $temp = $result->fetch_all(MYSQLI_ASSOC);
+
+    if (count($temp)) {
+        header("Location: home.php");
+        exit();
+    }
+} else {
+    if (isset($_SESSION['username'])) {
+        header("Location: home.php");
+        exit();
+    }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -46,8 +62,8 @@ if (isset($_SESSION['username'])) {
             <article class="card-body">
                 <h2 class="card-title mb-4 mt-1">Login</h2>
                 <?php if (isset($_SESSION['class'])) { ?>
-                    <div class="<?php echo $_SESSION['class']; ?>">
-                        <strong><?php echo $_SESSION['message']; ?></strong>
+                    <div class="<?php echo $_SESSION['class']; $_SESSION['class'] = ''; ?>">
+                        <strong><?php echo $_SESSION['message']; $_SESSION['message'] = ''; ?></strong>
                     </div>
                 <?php } ?>
                 <form action="login.php" method="POST">
